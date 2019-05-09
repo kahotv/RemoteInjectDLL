@@ -16,15 +16,15 @@ BOOL	RemoteFreeDLL	(DWORD pid, HMODULE hModule);
 ```
 XunYouDNSProxy
 |
-└───pic							测试图片
+└───pic						测试图片
 |
-└───Test						注入程序EXE
+└───Test					注入程序EXE
 |   |	
-|   |   RemoteInjectDLL.cpp		核心文件
-|   |   RemoteInjectDLL.h		核心文件
+|   |   RemoteInjectDLL.cpp			核心文件
+|   |   RemoteInjectDLL.h			核心文件
 |   |   Test.cpp				main函数
 |
-└───TestDLL						被注入的DLL
+└───TestDLL					被注入的DLL
 |   |
 |   |   dllmain.cpp				DllMain函数
 |
