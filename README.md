@@ -19,16 +19,16 @@ XunYouDNSProxy
 └───pic							测试图片
 |
 └───Test						注入程序EXE
-|	|	
-|	|	RemoteInjectDLL.cpp		核心文件
-|	|	RemoteInjectDLL.h		核心文件
-|	|	Test.cpp				main函数
+|   |	
+|   |   RemoteInjectDLL.cpp		核心文件
+|   |   RemoteInjectDLL.h		核心文件
+|   |   Test.cpp				main函数
 |
 └───TestDLL						被注入的DLL
-|	|
-|	|	dllmain.cpp				DllMain函数
+|   |
+|   |   dllmain.cpp				DllMain函数
 |
-|	RemoteInjectDLL.sln
+|   RemoteInjectDLL.sln
 |   README.md
 ```
 
@@ -37,10 +37,10 @@ XunYouDNSProxy
 ```
 bin
 |
-|	Test.exe					32位版本EXE
-|	Test64.exe					64位版本EXE
-|	TestDLL.dll					32位版本DLL
-|	TestDLL64.dll				64位版本DLL
+|   Test.exe					32位版本EXE
+|   Test64.exe					64位版本EXE
+|   TestDLL.dll					32位版本DLL
+|   TestDLL64.dll				64位版本DLL
 ```
   32位EXE注入32位DLL到32位进程，64位的EXE注入64位的DLL到64位进程。
 ## 测试方式
