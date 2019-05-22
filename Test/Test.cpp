@@ -36,7 +36,7 @@ int main()
 	std::string dllName = DLL_NAME;
 
 	//提权
-	std::cout << "提权:" << (AdjustToken() ? "成功" : "失败") << std::endl;
+	std::cout << "提权:" << (AdjustSeltTokenPrivileges() ? "成功" : "失败") << std::endl;
 
 	std::cout << "输入进程ID:";
 	std::cin >> pid;

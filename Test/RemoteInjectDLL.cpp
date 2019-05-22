@@ -230,7 +230,7 @@ BOOL RemoteFreeDLL(DWORD pid,HMODULE hModule)
 	return TRUE;
 }
 
-BOOL	AdjustToken()
+BOOL	AdjustSeltTokenPrivileges()
 {
 	HANDLE hToken;
 	TOKEN_PRIVILEGES tp;

@@ -17,6 +17,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                        LPVOID lpReserved
                      )
 {
+	OutputDebugStringA("DllMain");
+
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
@@ -34,8 +36,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			GetCurrentProcessId(),
 			hModule);
 
-		auto h = GetActiveWindow();
-		MessageBoxA(GetActiveWindow(), txt, "TestDLL", MB_OK);
+		//auto h = GetActiveWindow();
+		//MessageBoxA(GetActiveWindow(), txt, "TestDLL", MB_OK);
+		OutputDebugStringA(txt);
 		break;
 	}
     case DLL_THREAD_ATTACH:
@@ -57,7 +60,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 			GetCurrentProcessId(),
 			hModule);
 
-		MessageBoxA(GetActiveWindow(), txt, "TestDLL", MB_OK);
+		OutputDebugStringA(txt);
+		//MessageBoxA(GetActiveWindow(), txt, "TestDLL", MB_OK);
 		break;
 	}
     }

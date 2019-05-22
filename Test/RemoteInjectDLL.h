@@ -4,4 +4,4 @@
 HMODULE	RemoteInjectDLL	(DWORD pid, const char* path);
 BOOL	RemoteFreeDLL	(DWORD pid, HMODULE hModule);
 
-BOOL	AdjustSelfToken();
+BOOL	AdjustSeltTokenPrivileges();
