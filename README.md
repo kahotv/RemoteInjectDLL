@@ -1,10 +1,10 @@
 # RemoteInjectDLL
   x86与x64通用的远程注入DLL、远程卸载DLL。
 
-## 函数说明
+## 核心函数说明
   RemoteInjectDLL.h里
 ```cpp
-//注入DLL并返回模块句柄
+//注入DLL并返回模块句柄（支持x64）
 HMODULE	RemoteInjectDLL	(DWORD pid, const char* path);
 BOOL	RemoteFreeDLL	(DWORD pid, HMODULE hModule);
 ```
@@ -14,7 +14,7 @@ BOOL	RemoteFreeDLL	(DWORD pid, HMODULE hModule);
 
 ## 代码目录结构
 ```
-XunYouDNSProxy
+RemoteInjectDLL
 |
 └───pic						测试图片
 |
