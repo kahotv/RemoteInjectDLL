@@ -123,7 +123,7 @@ HMODULE RemoteInjectDLL(DWORD pid, const char* path)
 		hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
 		if (hProcess <= 0)
 		{
-			printf("打开进程[%d]失败\n", pid);
+			printf("打开进程[%d]失败，错误代码%d\n", pid, GetLastError());
 			break;
 		}
 
@@ -134,7 +134,7 @@ HMODULE RemoteInjectDLL(DWORD pid, const char* path)
 
 		if (pRemoteBuf <= 0)
 		{
-			printf("申请内存失败\n");
+			printf("申请内存失败，错误代码%d\n",GetLastError());
 			break;
 		}
 
@@ -161,16 +161,19 @@ HMODULE RemoteInjectDLL(DWORD pid, const char* path)
 		//创建线程
 		hThread = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)(pRemoteBuf + 0x100), NULL, 0, NULL);
 
-		if (hThread > 0)
+		if (hThread <= 0)
 		{
-			//等待线程结束
-			WaitForSingleObject(hThread, INFINITE);
+			printf("创建远程线程失败,错误代码%d\n", GetLastError());
+			break;
+		}
 
-			//读取返回值
-			if (0 == ReadProcessMemory(hProcess, (void*)pRemoteBuf, &hModule, sizeof(hModule), NULL))
-			{
-				hModule = 0;
-			}
+		//等待线程结束
+		WaitForSingleObject(hThread, INFINITE);
+
+		//读取返回值
+		if (0 == ReadProcessMemory(hProcess, (void*)pRemoteBuf, &hModule, sizeof(hModule), NULL))
+		{
+			hModule = 0;
 		}
 
 	} while (false);
@@ -202,7 +205,7 @@ BOOL RemoteFreeDLL(DWORD pid,HMODULE hModule)
 		hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
 		if (INVALID_HANDLE_VALUE == hProcess)
 		{
-			printf("打开进程失败\n");
+			printf("打开进程失败，错误代码%d\n",GetLastError());
 			break;
 		}
 		//准备好相关函数和参数
@@ -224,5 +227,34 @@ BOOL RemoteFreeDLL(DWORD pid,HMODULE hModule)
 
 	if (hProcess > 0)
 		CloseHandle(hProcess);
+	return TRUE;
+}
+
+BOOL	AdjustToken()
+{
+	HANDLE hToken;
+	TOKEN_PRIVILEGES tp;
+	LUID luid;
+
+	if (FALSE == OpenProcessToken(
+		GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
+	{
+		return FALSE;
+	}
+
+	if (!LookupPrivilegeValueA(NULL, "SeDebugPrivilege", &luid))
+	{
+		return FALSE;
+	}
+
+	tp.PrivilegeCount = 1;
+	tp.Privileges[0].Luid = luid;
+	tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+
+	if (!AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL))
+	{
+		return FALSE;
+	}
+
 	return TRUE;
 }
